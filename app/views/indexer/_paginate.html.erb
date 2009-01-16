@@ -1,0 +1,27 @@
+<div class="paginate">
+  <% if top_paginate && indexer.search %>
+    <table class="full-width">
+      <tr>
+        <td>
+  <% end %>
+          <div class="results"><%= results %></div>
+          <p class="links"><%= links %></p>
+  <% if top_paginate && indexer.search %>
+        </td>
+        <td>
+          <div class="index-search">
+            <% unless indexer.search[:query].blank? %>
+              <p class="index-search-query"><%= t(:search_results_for_query, :query => indexer.search[:query]) + (indexer.search[:context].blank? ? '' : " #{indexer.search[:context]}") %></p>
+            <% end %>
+    
+            <% form_tag(indexer.search[:url], indexer.search[:options]) do -%>
+              <%= text_field_tag(indexer.search[:name], indexer.search[:query]) %>
+      
+              <%= submit_tag(indexer.search[:label]) %>
+            <% end -%>
+          </div>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

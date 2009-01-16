@@ -1,0 +1,7 @@
+en:
+  indexer: 
+    next: Next &raquo;
+    no_results: No results found
+    no_selection: No entries selected
+    previous: "&laquo; Previous"
+    results: Displaying *{{from}} - {{to}}* of *{{total}}* results

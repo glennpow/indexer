@@ -1,0 +1,49 @@
+<div class="indexer" id="<%= indexer.div_id %>">
+  <%= render_paginate(indexer, :top_paginate => true) %>
+
+  <% form_tag({ :action => :index }, :method => :get, :id => "#{indexer.form_id}", :name => "#{indexer.form_id}") do %>
+  
+    <% if indexer.selectable && indexer.collection.any? %>
+        <input id="check_all" name="check_all" type="checkbox" onclick="Form.getInputs('indexer_form', 'checkbox').each(function(box) { box.checked = $('check_all').checked })" />
+        <%=t :select_all %>
+    <% end %>
+
+    <% unless no_table ||= false %>
+      <table class="indexer-table">
+        <% if indexer.collection.any? %>
+          <% if indexer.headers.any? %>
+            <tr class="indexer-tr">
+              <% indexer.headers.each do |header| %>
+                <th class="indexer-th"><%= sort_header(indexer, header) %></th>
+              <% end %>
+            </tr>
+          <% end %>
+
+          <%= render :partial => indexer.row, :collection => indexer.collection, :as => indexer.as, :locals => indexer.locals %>
+        <% end %>
+  
+        <% if indexer.footers.any? %>
+          <tfoot class="indexer-tfoot">
+            <tr class="indexer-tr">
+              <% indexer.footers.each do |footer| %>
+                <td class="indexer-td" <%= "colspan='0'" if footer == indexer.footers.last %>><%= footer %></td>
+              <% end %>
+            </tr>
+          </tfoot>
+        <% end %>
+      </table>
+    <% else %>
+      <%= render :partial => indexer.row, :collection => indexer.collection, :as => indexer.as, :locals => indexer.locals, :spacer_template => spacer_template ||= nil %>
+    <% end %>
+  
+    <% if indexer.selectable && indexer.collection.any? %>
+        <input id="check_all" name="check_all" type="checkbox" onclick="Form.getInputs('indexer_form', 'checkbox').each(function(box) { box.checked = $('check_all').checked })" />
+        <%=t :select_all %>
+    <% end %>
+  
+  <% end %>
+
+  <% if indexer.collection.any? %>
+    <%= render_paginate(indexer) %>
+  <% end %>
+</div>

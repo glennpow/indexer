@@ -1,0 +1,100 @@
+.index-search {
+  text-align: right;
+  margin: 5px 0px;
+}
+
+.index-search-query {
+  font-style: italic;
+}
+
+.indexer .paginate {
+  padding: 0px 20px 0px 20px;
+  margin: 0px 0px 0px 0px;
+  background-color: #ddd;
+  color: #000;
+  border: 1px solid #000;
+}
+  
+table.indexer-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #333;
+  border-bottom: 1px solid #333;
+}
+
+th.indexer-th, tfoot.indexer-tfoot td {
+  padding: 2px 15px;
+  color: #ddd;
+  font-weight: normal;
+}
+
+tfoot.indexer-tfoot td {
+  text-align: right;
+  border-top: 1px solid #ddd;
+}
+
+th.indexer-th a, tfoot.indexer-tfoot td a {
+  color: #eee;
+}
+
+th.indexer-th a:hover, tfoot.indexer-tfoot td a:hover {
+  color: #fff;
+}
+
+td.indexer-td {
+  padding: 2px 15px;
+  text-align: center;
+  border-left: 1px dotted #ddd;
+  border-right: 1px dotted #ddd;
+}
+
+td.indexer-td.column-top {
+  vertical-align: top;
+}
+
+td.indexer-td.column-bottom {
+  vertical-align: bottom;
+}
+
+tr.indexer-trh {
+  color: #000;
+}
+
+tr.indexer-trh td.indexer-tdh {
+  padding: 2px 15px;
+}
+
+tr.indexer-trh a {
+  color: #336;
+}
+
+tr.indexer-trh a:hover {
+  color: #447;
+}
+
+tr.indexer-tr.odd {
+  background-color: #fff;
+  border-bottom: 1px dotted #ddd;
+}
+
+tr.indexer-tr.even {
+  background-color: #eee;
+  border-bottom: 1px dotted #ddd;
+}
+
+.indexer .sort-header {
+  text-decoration: none;
+  padding-right: 14px;
+}
+
+.indexer .sort-header.asc {
+  background: transparent url('/plugin_assets/inventory/images/icons/sort_down.png') no-repeat right;
+}
+
+.indexer .sort-header.desc {
+  background: transparent url('/plugin_assets/inventory/images/icons/sort_up.png') no-repeat right;
+}
+
+.indexer-spacer {
+  border: 1px dotted #ddd;
+}

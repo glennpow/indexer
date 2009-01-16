@@ -1,0 +1,73 @@
+Indexer
+=======
+
+This plugin creates an easy, quick and clean Indexer object to handle displaying, paginating, and searching lists of records.
+
+Required plugins:
+  * engines
+  * searchable_record
+  * will_paginate
+  
+  
+Example
+=======
+
+You can call respond_with_indexer to render the default index.html.erb with the @indexer variable set to a new Indexer object.
+You can pass a class as a parameter into the method which will be the class of the records used in the list, or if none is passed,
+then the default class will be that of the controller.
+You pass an options parameter to the method's block which can set options for the Indexer.
+The :headers and :sort options allow you to set sortable headers in the Indexer table which gets rendered.
+The :search option causes a search field to be rendered at the top of the Indexer table where the user can enter simple
+query strings.  The search functionality uses the searchable_record plugin.
+Check the Indexer class for a full list of which options can be passed.
+
+== users_controller.rb ==
+
+  class UsersController < ApplicationController
+    def index
+      respond_with_indexer do |options|
+        options[:conditions] = [ "group_id = ?", @group.id ] if @group
+        options[:default_sort] = :name
+        options[:headers] = [
+          { :name => 'Name', :sort => :name },
+          { :name => 'Email', :sort => :email },
+          { :name => 'Group', :sort => :group, :include => :group, :order => 'groups.name' }
+        ]
+        options[:search] = true
+      end
+    end
+  end
+
+== show.html.erb ==
+
+  <%= render_indexer @indexer %>
+  
+
+You can also manually create an Indexer without responding.
+First create it in the controller with create_indexer (using the same options as
+respond_with_indexer, and passing a record class parameter), then render it with render_indexer.
+
+== groups_controller.rb ==
+
+  class GroupsController < ApplicationController
+    def show
+      @members_indexer = create_indexer(User) do |options|
+        options[:conditions] = [ "group_id = ?", @group.id ]
+        options[:default_sort] = :name
+        options[:headers] = [
+          { :name => 'Name', :sort => :name },
+          { :name => 'Email', :sort => :email }
+        ]
+        options[:search] = true
+      end
+    end
+  end
+
+== show.html.erb ==
+
+  Members of group <%= @group.name %>:
+  
+  <%= render_indexer @members_indexer %>
+  
+
+Copyright (c) 2009 Glenn Powell, released under the MIT license
