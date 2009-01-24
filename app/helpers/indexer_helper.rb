@@ -82,4 +82,19 @@ module IndexerHelper
       link_to(text, sort_url, :class => class_name)
     end
   end
+  
+  def render_row(indexer, object, columns, options = {})
+    locals = {
+      :indexer => indexer,
+      :object => object,
+      :columns => columns,
+      :headers => options[:headers],
+      :actions => actions_for(options[:actions]),
+      :row_class => cycle('odd', 'even'),
+      :row_url => options[:url] || url_for(object)
+    }
+    capture do
+      render :partial => 'indexer/row', :locals => locals
+    end
+  end
 end

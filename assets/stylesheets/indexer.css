@@ -82,17 +82,34 @@ tr.indexer-tr.even {
   border-bottom: 1px dotted #ddd;
 }
 
+tr.indexer-tr.clickable {
+  cursor: pointer;
+}
+
+tr.indexer-tr.clickable:hover {
+  background: #ff0;
+  color: #000;
+}
+
+tr.indexer-tr.clickable:hover a {
+  color: #333;
+}
+
+tr.indexer-tr.clickable:hover a:hover {
+  color: #555;
+}
+
 .indexer .sort-header {
   text-decoration: none;
   padding-right: 14px;
 }
 
 .indexer .sort-header.asc {
-  background: transparent url('/plugin_assets/inventory/images/icons/sort_down.png') no-repeat right;
+  background: transparent url('/plugin_assets/indexer/images/icons/sort_down.png') no-repeat right;
 }
 
 .indexer .sort-header.desc {
-  background: transparent url('/plugin_assets/inventory/images/icons/sort_up.png') no-repeat right;
+  background: transparent url('/plugin_assets/indexer/images/icons/sort_up.png') no-repeat right;
 }
 
 .indexer-spacer {
