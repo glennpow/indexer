@@ -93,8 +93,6 @@ module IndexerHelper
       :row_class => cycle('odd', 'even'),
       :row_url => options[:url] || url_for(object)
     }
-    capture do
-      render :partial => 'indexer/row', :locals => locals
-    end
+    render :partial => 'indexer/row', :locals => locals
   end
 end
