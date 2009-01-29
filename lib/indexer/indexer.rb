@@ -5,7 +5,7 @@ class Indexer
 
   attr_reader :collection
   attr_accessor :klass, :as, :row, :query, :sort, :sort_in, :locals, :headers, :footers, :more_path, :more_text,
-    :options, :selectable, :paginate_options, :render_options, :search
+    :options, :selectable, :paginate_options, :render_options, :search, :map
 
   def initialize(klass, options = {})
     self.query = options.delete(:query)
@@ -50,6 +50,7 @@ class Indexer
         :context => nil
       })
     end
+    self.map = options.delete(:map)
     self.options = options
 
     if self.query
@@ -58,6 +59,8 @@ class Indexer
       options.delete(:search_include)
       @collection = klass.paginate(options)
     end
+    
+    @collection.map! { |record| self.map.call(record) } if self.map
   end
 
   def as=(arg)
