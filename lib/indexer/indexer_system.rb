@@ -1,6 +1,6 @@
 module IndexerSystem
   def create_indexer(klass = nil, &block)
-    klass = controller_name.singularize.camelize.constantize if klass.nil?
+    klass ||= controller_name.singularize.camelize.constantize
     options = Indexer.parse_options(params)
     block.call(options)
     Indexer.new(klass, options)
