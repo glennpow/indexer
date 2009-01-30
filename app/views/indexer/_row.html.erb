@@ -12,7 +12,7 @@
 </tr>
 <% end %>
 
-<tr class='indexer-tr <%= row_class %> clickable' onclick="location.href='<%= row_url %>'">
+<tr class='indexer-tr <%= row_class %> <%= row_url ? 'clickable' : '' %>' <%= row_url ? "onclick=\"location.href='#{row_url}'\"" : '' %>>
   <% if indexer && indexer.selectable %>
     <td class='indexer-td'>
       <%= check_box(indexer.klass.to_s.underscore, object.id) %>
@@ -24,8 +24,10 @@
       <td class='indexer-td <%= column[:class] || '' %>' <%= column.except(:content, :class).collect { |attr| "#{attr.first}='#{attr.last}'" }.join(' ') %>>
         <%= column[:content] %>
       </td>
-    <% else %>
+    <% elsif !column.nil? %>
       <td class='indexer-td <%= column[:class] || '' %>'><%= column %></td>
+    <% else %>
+      <td class='indexer-td'></td>
     <% end %>
   <% end %>
   
