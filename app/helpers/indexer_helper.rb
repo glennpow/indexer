@@ -84,15 +84,31 @@ module IndexerHelper
   end
   
   def render_row(indexer, object, columns, options = {})
+    columns.map! do |column|
+      content = (column.is_a?(Hash) ? column[:content] : column).to_s
+      content.gsub!(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| "<p onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{s}</p>" }
+      column.is_a?(Hash) ? column.reverse_merge(:content => content) : { :content => content }
+    end
+    (actions = actions_for(options[:actions])).map! do |action|
+      logger.info("ACTION=#{action}")
+      logger.info("MATCH=#{action.match(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/)}")
+      action.gsub(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| "<p onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{s}</p>" }
+    end
+    
     locals = {
       :indexer => indexer,
       :object => object,
       :columns => columns,
       :headers => options[:headers],
-      :actions => actions_for(options[:actions]),
+      :actions => actions,
       :row_class => cycle('odd', 'even'),
       :row_url => options.has_key?(:url) ? options[:url] : url_for(object)
     }
     render :partial => 'indexer/row', :locals => locals
+  end
+  
+  def actions_for(actions)
+    # TODO - get rid of Hash variation
+    (actions || []).flatten.map { |action| action.is_a?(Hash) ? ((!action.has_key?(:if) || action[:if]) ? action[:allow] : nil) : action }.flatten.compact
   end
 end
