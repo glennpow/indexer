@@ -90,8 +90,6 @@ module IndexerHelper
       column.is_a?(Hash) ? column.reverse_merge(:content => content) : { :content => content }
     end
     (actions = actions_for(options[:actions])).map! do |action|
-      logger.info("ACTION=#{action}")
-      logger.info("MATCH=#{action.match(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/)}")
       action.gsub(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| "<p onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{s}</p>" }
     end
     
