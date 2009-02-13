@@ -13,7 +13,8 @@ class Indexer
     options[:per_page] = (options[:per_page] || Indexer.paginate_per_page).to_i
   
     self.headers = options.delete(:headers) || []
-    self.sort = options.delete(:sort) || options.delete(:default_sort)
+    default_sort = options.delete(:default_sort)
+    self.sort = options.delete(:sort) || default_sort
     self.sort_in = options.delete(:sort_in) || :asc
     options[:include] = [ options[:include] || [] ].flatten
     if self.sort
