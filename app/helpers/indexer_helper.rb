@@ -1,4 +1,10 @@
 module IndexerHelper
+  def indexer_header(options = {})
+    returning('') do |content|
+      content << stylesheet_link_tag('indexer', :plugin => 'indexer')
+    end
+  end
+
   def indexer_submit(indexer, options = {}, html_options = {})
     returning('') do |script|
       script << "any_checked = false; Form.getInputs('#{indexer.form_id}', 'checkbox').each(function(box) { any_checked = any_checked || box.checked; }); if (any_checked) {" if html_options[:allow_none] == false
@@ -83,14 +89,20 @@ module IndexerHelper
     end
   end
   
+  def catch_click(&block)
+    content = block_called_from_erb?(block) ? capture(&block) : yield
+    content = "<span onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{content}</span>"
+    block_called_from_erb?(block) ? concat(content) : content
+  end
+  
   def render_row(indexer, object, columns, options = {})
     columns.map! do |column|
       content = (column.is_a?(Hash) ? column[:content] : column).to_s
-      content.gsub!(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| "<p onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{s}</p>" }
+      content.gsub!(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| catch_click { s } }
       column.is_a?(Hash) ? column.reverse_merge(:content => content) : { :content => content }
     end
     (actions = actions_for(options[:actions])).map! do |action|
-      action.gsub(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| "<p onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{s}</p>" }
+      action.gsub(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| catch_click { s } }
     end
     
     locals = {

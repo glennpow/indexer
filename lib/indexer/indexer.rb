@@ -47,7 +47,7 @@ class Indexer
         :options => { :method => :get },
         :name => :query,
         :query => self.query,
-        :label => I18n.t(:search),
+        :label => I18n.t(:quick_search),
         :context => nil
       })
     end

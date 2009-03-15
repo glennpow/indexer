@@ -103,6 +103,12 @@ tr.indexer-tr.clickable:hover a:hover {
   color: #555;
 }
 
+ul.indexer-row-actions li {
+  list-style: none;
+  display: inline;
+  padding: 0px 5px;
+}
+
 .indexer .sort-header {
   text-decoration: none;
   padding-right: 14px;
