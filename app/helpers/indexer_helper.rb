@@ -89,20 +89,29 @@ module IndexerHelper
     end
   end
   
-  def catch_click(&block)
-    content = block_called_from_erb?(block) ? capture(&block) : yield
-    content = "<span onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{content}</span>"
-    block_called_from_erb?(block) ? concat(content) : content
+  def catch_click(content_or_options_with_block = nil, &block)
+    if block_given?
+      content = block_called_from_erb?(block) ? capture(&block) : yield
+      content = "<span onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{content}</span>"
+      block_called_from_erb?(block) ? concat(content) : content
+    else
+      "<span onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{content_or_options_with_block}</span>"
+    end
   end
   
   def render_row(indexer, object, columns, options = {})
+    clickables = [
+      /<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/,
+      /<input [^>]*>(?:.*<\/input>)?/
+    ]
+    
     columns.map! do |column|
       content = (column.is_a?(Hash) ? column[:content] : column).to_s
-      content.gsub!(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| catch_click { s } }
+      clickables.each { |clickable| content.gsub!(clickable) { |s| catch_click(s) } }
       column.is_a?(Hash) ? column.reverse_merge(:content => content) : { :content => content }
     end
     (actions = actions_for(options[:actions])).map! do |action|
-      action.gsub(/<a [^>]*onclick=['"][^>]*>(.|\n)+<\/a>/) { |s| catch_click { s } }
+      clickables.inject(action) { |action, clickable| action.gsub(clickable) { |s| catch_click(s) } }
     end
     
     locals = {
