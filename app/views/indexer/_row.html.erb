@@ -14,7 +14,7 @@
 
 <tr class='indexer-tr <%= row_class %> <%= row_url ? 'clickable' : '' %>' <%= row_url ? "onclick=\"location.href='#{row_url}'\"" : '' %>>
   <% if indexer && indexer.selectable %>
-    <td class='indexer-td'>
+    <td class='indexer-td indexer-check-box-td'>
       <%= catch_click(check_box(indexer.klass.to_s.underscore, object.id)) %>
     </td>
   <% end %>
