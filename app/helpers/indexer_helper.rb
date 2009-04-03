@@ -92,11 +92,11 @@ module IndexerHelper
   def catch_click(content_or_options_with_block = nil, &block)
     if block_given?
       content = block_called_from_erb?(block) ? capture(&block) : yield
-      content = "<span onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{content}</span>"
-      block_called_from_erb?(block) ? concat(content) : content
     else
-      "<span onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{content_or_options_with_block}</span>"
+      content = content_or_options_with_block
     end
+    content = "<span onclick='event.cancelBubble = true; if (event.stopPropagation) event.stopPropagation();'>#{content}</span>"
+    (block_given? && block_called_from_erb?(block)) ? concat(content) : content
   end
   
   def render_row(indexer, object, columns, options = {})
