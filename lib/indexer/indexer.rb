@@ -5,7 +5,7 @@ class Indexer
 
   attr_reader :collection
   attr_accessor :klass, :as, :row, :query, :sort, :sort_in, :locals, :headers, :footers, :more_path, :more_text,
-    :options, :selectable, :paginate_options, :render_options, :search, :post_process
+    :options, :selectable, :paginate_options, :render_options, :search, :post_process, :hide_bottom_pagination
 
   def initialize(klass, options = {})
     self.query = options.delete(:query)
@@ -40,6 +40,7 @@ class Indexer
     self.more_path = options.delete(:more_path)
     self.more_text = options.delete(:more_text)
     self.paginate_options = options.delete(:paginate)
+    self.hide_bottom_pagination = options[:hide_bottom_pagination].nil? ? false : options.delete(:hide_bottom_pagination)
     self.search = options.delete(:search)
     if self.search
       self.search = {} unless self.search.is_a?(Hash)

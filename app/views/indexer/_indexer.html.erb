@@ -43,7 +43,7 @@
   
   <% end %>
 
-  <% if indexer.collection.any? %>
+  <% unless indexer.hide_bottom_pagination || indexer.collection.empty? %>
     <%= render_paginate(indexer) %>
   <% end %>
 </div>

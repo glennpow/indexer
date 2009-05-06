@@ -121,7 +121,7 @@ module IndexerHelper
       :headers => options[:headers],
       :actions => actions,
       :row_class => cycle('odd', 'even'),
-      :row_url => options.has_key?(:url) ? options[:url] : url_for(object)
+      :row_url => options.has_key?(:url) ? url_for(options[:url]) : url_for(object)
     }
     render :partial => 'indexer/row', :locals => locals
   end
