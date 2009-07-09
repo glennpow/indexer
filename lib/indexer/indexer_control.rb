@@ -1,4 +1,4 @@
-module IndexerSystem
+module IndexerControl
   def create_indexer(klass = nil, &block)
     klass ||= controller_name.singularize.camelize.constantize
     options = Indexer.parse_options(params)
@@ -21,4 +21,4 @@ module IndexerSystem
   end
 end
 
-ActionController::Base.send(:include, IndexerSystem) if defined?(ActionController::Base)
+ActionController::Base.send(:include, IndexerControl) if defined?(ActionController::Base)
