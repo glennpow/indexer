@@ -23,7 +23,7 @@ class Indexer
       if sort_header
         sort_order = (sort_header[:order] || "#{klass.table_name}.#{sort_header[:sort]}").to_s
         options[:include] << sort_header[:include] if sort_header[:include]
-        sort_order << " #{self.sort_in}"
+        sort_order = sort_order.split(",").map { |order_by| order_by.strip.concat(" #{self.sort_in}") }.join(", ")
         options[:order] = options[:order] ? "#{sort_order}, #{options[:order]}" : sort_order
       end
     end
