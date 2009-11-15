@@ -20,12 +20,12 @@
   <% end %>
   
   <% columns.each do |column| %>
-    <% unless column.nil? %>
+    <% if column %>
       <td class='indexer-td <%= column[:class] || '' %>' <%= column.except(:content, :class).collect { |attr| "#{attr.first}='#{attr.last}'" }.join(' ') %>>
         <%= column[:content] %>
       </td>
     <% else %>
-      <td class='indexer-td'></td>
+      <!-- <td class='indexer-td'></td> -->
     <% end %>
   <% end %>
   

@@ -19,12 +19,12 @@ module IndexerHelper
   
   def render_indexer(indexer, options = {})
     locals = indexer.render_options.merge(options).merge({ :indexer => indexer })
-    render :partial => 'indexer/indexer', :locals => locals
+    render :partial => options[:partial] || 'indexer/indexer', :locals => locals
   end
   
   def replace_indexer(page, indexer, options = {})
     locals = indexer.render_options.merge(options).merge({ :indexer => indexer })
-    page.replace indexer.div_id, :partial => 'indexer/indexer', :locals => locals
+    page.replace indexer.div_id, :partial => options[:partial] || 'indexer/indexer', :locals => locals
   end
   
   def render_paginate(indexer_or_collection, options = {})
@@ -106,9 +106,11 @@ module IndexerHelper
     ]
     
     columns.map! do |column|
-      content = (column.is_a?(Hash) ? column[:content] : column).to_s
-      clickables.each { |clickable| content.gsub!(clickable) { |s| catch_click(s) } }
-      column.is_a?(Hash) ? column.reverse_merge(:content => content) : { :content => content }
+      if column
+        content = (column.is_a?(Hash) ? column[:content] : column).to_s
+        clickables.each { |clickable| content.gsub!(clickable) { |s| catch_click(s) } }
+        column.is_a?(Hash) ? column.reverse_merge(:content => content) : { :content => content }
+      end
     end
     (actions = actions_for(options[:actions])).map! do |action|
       clickables.inject(action) { |action, clickable| action.gsub(clickable) { |s| catch_click(s) } }

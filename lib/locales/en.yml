@@ -5,3 +5,4 @@ en:
     no_selection: No entries selected
     previous: "&laquo; Previous"
     results: Displaying *{{from}} - {{to}}* of *{{total}}* results
+    sort_by: Sort by

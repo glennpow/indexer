@@ -15,9 +15,9 @@
             <% end %>
     
             <% form_tag(indexer.search[:url], indexer.search[:options]) do -%>
-              <%= text_field_tag(indexer.search[:name], indexer.search[:query]) %>
+              <%= text_field_tag(indexer.search[:name], indexer.search[:query], :class => 'paginate-search-field') %>
       
-              <%= submit_tag(indexer.search[:label]) %>
+              <%= submit_tag(indexer.search[:label], :class => 'paginate-search-submit') %>
             <% end -%>
           </div>
         </td>

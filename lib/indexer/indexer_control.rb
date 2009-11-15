@@ -19,6 +19,10 @@ module IndexerControl
       end
     end
   end
+  
+  def self.included(base)
+    base.send :helper_method, :create_indexer if base.respond_to? :helper_method
+  end
 end
 
 ActionController::Base.send(:include, IndexerControl) if defined?(ActionController::Base)
